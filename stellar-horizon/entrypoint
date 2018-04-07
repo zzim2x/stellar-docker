@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e
+
+if [ "$POSTGRES_UNIX_SOCKET" != "" ]; then
+    while ! psql -h $POSTGRES_UNIX_SOCKET -U $POSTGRES_USERNAME -c 'select 1' > /dev/null 2>&1; do
+        echo "Waiting for postgres to be available... (horizon)"
+        sleep 1
+    done
+    while ! psql -h $POSTGRES_CORE_UNIX_SOCKET -U $POSTGRES_CORE_USERNAME -c 'select 1' > /dev/null 2>&1; do
+        echo "Waiting for postgres to be available... (core)"
+        sleep 1
+    done
+fi
+
+export DATABASE_URL="host=${POSTGRES_UNIX_SOCKET} user=${POSTGRES_USERNAME} dbname=${POSTGRES_DBNAME}"
+export STELLAR_CORE_DATABASE_URL="host=${POSTGRES_CORE_UNIX_SOCKET} user=${POSTGRES_CORE_USERNAME} dbname=${POSTGRES_CORE_DBNAME}"
+
+while [[ -n "$1" ]]; do
+    CMD=$1; shift
+
+    case "$CMD" in
+    initdb)
+        echo "initialize storage (horizon) -h $POSTGRES_UNIX_SOCKET -U $POSTGRES_USERNAME -d $POSTGRES_DBNAME"
+        createdb -h $POSTGRES_UNIX_SOCKET -U $POSTGRES_USERNAME $POSTGRES_DBNAME || true
+        horizon db init || true
+        ;;
+    serve)
+        echo "staring horizon ${HORIZON_VERSION}"
+        horizon serve
+        ;;
+    esac
+done
