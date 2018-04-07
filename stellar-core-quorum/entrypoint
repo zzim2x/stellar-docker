@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+
+export SELF=$1; shift
+confd -onetime -backend env
+
+while ! psql -h $POSTGRES_UNIX_SOCKET -U $POSTGRES_USERNAME -c 'select 1' > /dev/null 2>&1; do
+    echo "Waiting for postgres to be available..."
+    sleep 1
+done
+
+while [[ -n "$1" ]]; do
+    CMD=$1; shift
+
+    case "$CMD" in
+    initdb)
+        echo "initialize storage (postgres) -h $POSTGRES_UNIX_SOCKET -U $POSTGRES_USERNAME -d $POSTGRES_DBNAME"
+        createdb -h $POSTGRES_UNIX_SOCKET -U $POSTGRES_USERNAME $POSTGRES_DBNAME || true
+        stellar-core --newdb
+        ;;
+    printcfg)
+        # for test
+        cat /opt/stellar-core/stellar-core.cfg
+        ;;
+    genseed)
+        stellar-core --genseed
+        ;;
+    forcescp)
+        stellar-core --forcescp
+        ;;
+    esac
+done
+
+exec stellar-core $STELLAR_OPTIONS
