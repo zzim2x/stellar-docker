@@ -12,6 +12,9 @@ DATABASE="postgresql://dbname={{getenv "POSTGRES_DBNAME"}} user={{getenv "POSTGR
 MAX_PEER_CONNECTIONS={{getenv "MAX_PEER_CONNECTIONS"}}
 KNOWN_PEERS={{getenv "KNOWN_PEERS"}}
 
+{{if (getenv "NTP_SERVER") -}}
+NTP_SERVER="{{getenv "NTP_SERVER"}}"
+{{- end}}
 {{if (getenv "NODE_NAMES") -}}
 NODE_NAMES={{getenv "NODE_NAMES"}}
 {{- end}}
