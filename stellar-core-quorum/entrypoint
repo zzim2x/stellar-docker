@@ -30,6 +30,12 @@ while [[ -n "$1" ]]; do
     forcescp)
         stellar-core --forcescp
         ;;
+    newhist)
+        stellar-core --newhist $SELF || true
+        ;;
+    catchup)
+        stellar-core --catchup-complete
+        ;;
     esac
 done
 

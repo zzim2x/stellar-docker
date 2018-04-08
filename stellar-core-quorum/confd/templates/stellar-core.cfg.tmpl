@@ -58,7 +58,22 @@ THRESHOLD_PERCENT={{getenv "THRESHOLD_PERCENT"}}
 {{- end}}
 VALIDATORS={{getenv "VALIDATORS"}}
 
-[HISTORY.namedvol]
-get="cp /opt/stellar-core/history/vs/{0} {1}"
-put="cp {0} /opt/stellar-core/history/vs/{1}"
-mkdir="mkdir -p /opt/stellar-core/history/vs/{0}"
+[HISTORY.core1]
+get="cp /opt/stellar-core/history/core1/{0} {1}"
+put="cp {0} /opt/stellar-core/history/core1/{1}"
+mkdir="mkdir -p /opt/stellar-core/history/core1/{0}"
+
+[HISTORY.core2]
+get="cp /opt/stellar-core/history/core2/{0} {1}"
+put="cp {0} /opt/stellar-core/history/core2/{1}"
+mkdir="mkdir -p /opt/stellar-core/history/core2/{0}"
+
+[HISTORY.core3]
+get="cp /opt/stellar-core/history/core3/{0} {1}"
+put="cp {0} /opt/stellar-core/history/core3/{1}"
+mkdir="mkdir -p /opt/stellar-core/history/core3/{0}"
+
+[HISTORY.core4]
+get="cp /opt/stellar-core/history/core4/{0} {1}"
+put="cp {0} /opt/stellar-core/history/core4/{1}"
+mkdir="mkdir -p /opt/stellar-core/history/core4/{0}"
