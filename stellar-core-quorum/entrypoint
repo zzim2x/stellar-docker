@@ -17,8 +17,9 @@ while [[ -n "$1" ]]; do
     case "$CMD" in
     initdb)
         echo "initialize storage (postgres) -h $POSTGRES_UNIX_SOCKET -U $POSTGRES_USERNAME -d $POSTGRES_DBNAME"
-        createdb -h $POSTGRES_UNIX_SOCKET -U $POSTGRES_USERNAME $POSTGRES_DBNAME || true
-        stellar-core --newdb
+        if createdb -h $POSTGRES_UNIX_SOCKET -U $POSTGRES_USERNAME $POSTGRES_DBNAME; then
+            stellar-core --newdb
+        fi
         ;;
     printcfg)
         # for test
