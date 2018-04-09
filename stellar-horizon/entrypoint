@@ -26,7 +26,7 @@ while [[ -n "$1" ]]; do
         ;;
     serve)
         echo "staring horizon ${HORIZON_VERSION}"
-        horizon serve
+        horizon serve ${SERVE_OPTS}
         ;;
     esac
 done
