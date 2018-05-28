@@ -1,4 +1,4 @@
-FROM zzim2x/stellar-core-prebuilt:9.2.0
+FROM zzim2x/stellar-core-prebuilt:9.2.0-13d55680
 
 RUN apt install -y curl postgresql-client
 WORKDIR /opt/stellar-core
